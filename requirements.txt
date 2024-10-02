@@ -1,1 +1,6 @@
+groq
+gradio
+beautifulsoup4
+yfinance
 streamlit
+python-dotenv
