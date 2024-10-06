@@ -159,6 +159,19 @@ def summarize_stock_news(ticker, start_date, end_date):
 # Streamlit UI setup
 st.title("Stock News Summarizer")
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Correct password stored in .env file for security (you can also hard-code it, but it's less secure)
+correct_password = os.getenv("APP_PASSWORD")
+
+# Create a password input field
+password = st.text_input("Enter Password", type="password")
+
+# Check if the password is correct
+if password == correct_password:
+    st.success("Password correct! You can now use the app.")
+
 ticker = st.text_input("Stock Ticker", "NVDA")
 start_date = st.date_input("Start Date", datetime.now() - timedelta(days=30))
 end_date = st.date_input("End Date", datetime.now())
