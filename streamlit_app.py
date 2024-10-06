@@ -171,45 +171,49 @@ password = st.text_input("Enter Password", type="password")
 # Check if the password is correct
 if password == correct_password:
     st.success("Password correct! You can now use the app.")
-
-ticker = st.text_input("Stock Ticker", "NVDA")
-start_date = st.date_input("Start Date", datetime.now() - timedelta(days=30))
-end_date = st.date_input("End Date", datetime.now())
-
-if st.button("Summarize"):
-    summary = summarize_stock_news(ticker, start_date, end_date)
     
-    # Display the summary
-    st.write(summary)
-    
-    # Add the Copy button with JavaScript to copy the text to the clipboard
-    copy_button = f"""
-    <button onclick="copyToClipboard()">
-        Copy to Clipboard
-    </button>
-    <script>
-        function copyToClipboard() {{
-            if (navigator.clipboard) {{
-                navigator.clipboard.writeText(`{summary}`).then(function() {{
-                    alert('Copied to clipboard!');
-                }}, function(err) {{
-                    alert('Could not copy text: ', err);
-                }});
-            }} else {{
-                // Fallback for older browsers
-                var textArea = document.createElement("textarea");
-                textArea.value = `{summary}`;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {{
-                    document.execCommand('copy');
-                    alert('Copied to clipboard!');
-                }} catch (err) {{
-                    alert('Could not copy text: ', err);
+    # Input fields for stock ticker, start date, and end date
+    ticker = st.text_input("Stock Ticker", "NVDA")
+    start_date = st.date_input("Start Date", datetime.now() - timedelta(days=30))
+    end_date = st.date_input("End Date", datetime.now())
+
+    # Summarize button
+    if st.button("Summarize"):
+        summary = summarize_stock_news(ticker, start_date, end_date)
+        
+        # Display the summary
+        st.write(summary)
+
+        # Add the Copy button with JavaScript to copy the text to the clipboard
+        copy_button = f"""
+        <button onclick="copyToClipboard()">
+            Copy to Clipboard
+        </button>
+        <script>
+            function copyToClipboard() {{
+                if (navigator.clipboard) {{
+                    navigator.clipboard.writeText(`{summary}`).then(function() {{
+                        alert('Copied to clipboard!');
+                    }}, function(err) {{
+                        alert('Could not copy text: ', err);
+                    }});
+                }} else {{
+                    // Fallback for older browsers
+                    var textArea = document.createElement("textarea");
+                    textArea.value = `{summary}`;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {{
+                        document.execCommand('copy');
+                        alert('Copied to clipboard!');
+                    }} catch (err) {{
+                        alert('Could not copy text: ', err);
+                    }}
+                    document.body.removeChild(textArea);
                 }}
-                document.body.removeChild(textArea);
             }}
-        }}
-    </script>
-    """
-    st.components.v1.html(copy_button)
+        </script>
+        """
+        st.components.v1.html(copy_button)
+else:
+    st.warning("Please enter the correct password to proceed.")
